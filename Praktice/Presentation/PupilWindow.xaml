@@ -1,0 +1,405 @@
+﻿<Window x:Class="Praktice.Presentation.PupilWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Praktice.Presentation"
+        xmlns:vm="clr-namespace:Praktice.Presentation.ViewModels"
+        mc:Ignorable="d"
+        Title="Окно ученика" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:PupilWindowViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="0.1*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition
+                    Width="0.3*"/>
+            </Grid.ColumnDefinitions>
+            <Grid
+                Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    Text="{Binding LoginnedPupil.AccauntData}"/>
+                <TextBlock
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    Text="Роль: Ученик"/>
+            </Grid>
+            <Button
+                Grid.Column="1"
+                Content="Выйти из аккаунта"
+                x:Name="LogoutButton"
+                Click="LogoutButton_Click"
+                Margin="5"/>
+        </Grid>
+        <TabControl
+            Grid.Row="1"
+            TabStripPlacement="Left">
+            <TabItem
+            Header="Мой класс"
+            Width="100">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                        Height="0.1*"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid
+                    Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid
+                        Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                            Grid.Column="0"
+                            Text="{Binding LoginnedPupil.FullName}"
+                            HorizontalAlignment="Center"/>
+                            <TextBlock
+                            Grid.Column="1"
+                            Text="{Binding LoginnedPupil.ClassNavigation.Name,UpdateSourceTrigger=PropertyChanged}"
+                            HorizontalAlignment="Center"/>
+                        </Grid>
+                        <Grid
+                        Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                            Grid.Column="0"
+                            Text="{Binding LoginnedPupil.GeneralMark}"
+                            HorizontalAlignment="Center"/>
+                            <TextBlock
+                            Grid.Column="1"
+                            Text="{Binding TeacherName,UpdateSourceTrigger=PropertyChanged}"
+                            HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Grid>
+                    <ListView
+                    Grid.Row="1"
+                    ItemsSource="{Binding Class,UpdateSourceTrigger=PropertyChanged}"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                    BorderBrush="White">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                BorderBrush="Black"
+                                BorderThickness="1">
+                                    <Grid
+                                    Width="665">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                        Grid.Column="0"
+                                        Text="{Binding FullName}"
+                                        Margin="6,0,0,0"/>
+                                        <TextBlock
+                                        Grid.Column="1"
+                                        Text="{Binding GeneralMark}"
+                                        HorizontalAlignment="Right"
+                                        Margin="0,0,6,0"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </TabItem>
+            <TabItem
+            Header="Расписание"
+            Width="100">
+                <DataGrid 
+                x:Name="ScheduleDataGrid" 
+                AutoGenerateColumns="False"
+                IsReadOnly="True"
+                ColumnWidth="125"
+                ItemsSource="{Binding Schedules,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                        Header="Понедельник"
+                        Binding="{Binding MondayNavigation.Name}"/>
+                        <DataGridTextColumn
+                        Header="Вторник"
+                        Binding="{Binding TuesdayNavigation.Name}"/>
+                        <DataGridTextColumn
+                        Header="Среда"
+                        Binding="{Binding WednesdayNavigation.Name}"/>
+                        <DataGridTextColumn
+                        Header="Четверг"
+                        Binding="{Binding ThursdayNavigation.Name}"/>
+                        <DataGridTextColumn
+                        Header="Пятница"
+                        Binding="{Binding FridayNavigation.Name}"/>
+                        <DataGridTextColumn
+                        Header="Суббота"
+                        Binding="{Binding SaturdayNavigation.Name}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem
+            Header="Успеваемость"
+            Width="100">
+                <TabControl>
+                    <TabItem
+                    Header="Алгебра"
+                    Width="80">
+                        <DataGrid
+                        x:Name="AlgebraMarksDataGrid"
+                        AutoGenerateColumns="False"
+                        ColumnWidth="100"
+                        IsReadOnly="True"/>
+                    </TabItem>
+                    <TabItem
+                    Header="Русский язык"
+                    Width="90">
+                        <DataGrid
+                        x:Name="RussianLanguageMarksDataGrid"
+                        ColumnWidth="100"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"/>
+                    </TabItem>
+                    <TabItem
+                    Header="Литература"
+                    Width="80">
+                        <DataGrid
+                        x:Name="LiteratureMarksDataGrid"
+                        ColumnWidth="100"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"/>
+                    </TabItem>
+                    <TabItem
+                    Header="Информатика"
+                    Width="90">
+                        <DataGrid
+                        x:Name="InformaticMarksDataGrid"
+                        ColumnWidth="100"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"/>
+                    </TabItem>
+                    <TabItem
+                    Header="Физика"
+                    Width="80">
+                        <DataGrid
+                        x:Name="PhysicsMarksDataGrid"
+                        ColumnWidth="100"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"/>
+                    </TabItem>
+                    <TabItem
+                    Header="Химия"
+                    Width="80">
+                        <DataGrid
+                        x:Name="ChemistryMarksDataGrid"
+                        ColumnWidth="100"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"/>
+                    </TabItem>
+                    <TabItem
+                    Header="Биология"
+                    Width="85">
+                        <DataGrid
+                        x:Name="BiologyMarksDataGrid"
+                        ColumnWidth="100"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"/>
+                    </TabItem>
+                    <TabItem
+                    Header="Физкультура"
+                    Width="85">
+                        <DataGrid
+                        x:Name="PhysicalCultureMarksDataGrid"
+                        ColumnWidth="100"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"/>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem
+            Header="Клубы"
+            Width="100">
+                <TabControl
+                x:Name="ClubsTabControl">
+                    <TabItem
+                    Header="Список клубов"
+                    Width="175">
+                        <ListView
+                        ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                        ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                        BorderBrush="White"
+                        ItemsSource="{Binding Clubs,UpdateSourceTrigger=PropertyChanged}"
+                        SelectedItem="{Binding SelectedClub,UpdateSourceTrigger=PropertyChanged}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                    BorderBrush="Black"
+                                    BorderThickness="1">
+                                        <Grid
+                                        Width="655"
+                                        Height="60">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition
+                                                Width="0.5*"/>
+                                                <ColumnDefinition
+                                                Width="0.5*"/>
+                                                <ColumnDefinition
+                                                Width="0.25*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid
+                                            Grid.Column="0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock
+                                                Grid.Row="0"
+                                                Text="{Binding Name}"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"/>
+                                                <TextBlock
+                                                Grid.Row="1"
+                                                Text="{Binding LeaderFullName}"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"/>
+                                            </Grid>
+                                            <TextBlock
+                                            Grid.Column="1"
+                                            Text="{Binding FullActivity}"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            TextWrapping="WrapWithOverflow"/>
+                                            <Button
+                                            Grid.Column="2"
+                                            Margin="6"
+                                            Content="Вступить в клуб"
+                                            x:Name="JoinClubButton"
+                                            Click="JoinClubButton_Click"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </TabItem>
+                    <TabItem
+                    x:Name="MyClubTabItem"
+                    Header="Мой клуб"
+                    Width="175"
+                    Visibility="Hidden">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                Height="0.15*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid
+                            Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition
+                                    Width="0.5*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid
+                                Grid.Column="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                    Grid.Row="0"
+                                    HorizontalAlignment="Center"
+                                    Text="{Binding LoginnedPupilClub.Name,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Center"
+                                    Text="{Binding LoginnedPupilClub.LeaderFullName,UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
+                                <TextBlock
+                                Grid.Column="1"
+                                Text="{Binding LoginnedPupilClub.FullActivity,UpdateSourceTrigger=PropertyChanged}"
+                                VerticalAlignment="Center"
+                                TextWrapping="WrapWithOverflow"
+                                HorizontalAlignment="Center"/>
+                                <Button
+                                x:Name="LeaveClubButton"
+                                Grid.Column="2"
+                                Margin="5"
+                                Content="Выйти из клуба"
+                                Click="LeaveClubButton_Click"/>
+                            </Grid>
+                            <DataGrid
+                            Grid.Row="1"
+                            AutoGenerateColumns="False"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding LoginnedPupilClub.ClubMembers,UpdateSourceTrigger=PropertyChanged}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                    Header="Участник"
+                                    Width="330"
+                                    Binding="{Binding FullName,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <DataGridTextColumn
+                                    Header="Класс"
+                                    Width="50"
+                                    Binding="{Binding ClassNavigation.Name,UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem
+                Header="Объявления">
+                <ListView
+                    ItemsSource="{Binding AnnouncementList,UpdateSourceTrigger=PropertyChanged}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Width="675"
+                                Height="60"
+                                BorderBrush="Black"
+                                BorderThickness="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition
+                                            Width="0.4*"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        TextAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Grid.Column="0"
+                                        Text="{Binding AuthorNavigation.OwnerName}"/>
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Text="{Binding Text}"
+                                        TextAlignment="Center"
+                                        VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

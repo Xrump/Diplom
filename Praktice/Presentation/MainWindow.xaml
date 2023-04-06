@@ -1,0 +1,33 @@
+﻿<Window x:Class="Praktice.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Praktice"
+        xmlns:vm="clr-namespace:Praktice.Presentation.ViewModels"
+        mc:Ignorable="d"
+        Title="Авторизация" Height="175" Width="200">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <StackPanel>
+        <TextBlock
+            Margin="4"
+            Text="Логин"/>
+        <TextBox
+            Margin="4"
+            x:Name="LoginTextBox"/>
+        <TextBlock
+            Margin="2"
+            Text="Пароль"/>
+        <PasswordBox
+            Margin="4,4,4,10"
+            x:Name="PasswordPBox"/>
+        <Button
+            Margin="4"
+            Height="20"
+            x:Name="LoginButton"
+            Content="Войти"
+            Click="LoginButton_Click"/>
+    </StackPanel>
+</Window>
